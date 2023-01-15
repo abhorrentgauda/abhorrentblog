@@ -62,7 +62,7 @@
     "sass": "^1.57.1"
   },
   "lint-staged": {
-    "src/**/*.{js,html,css,tsx}": "prettier --write",
-    "src/**/*.tsx": "npm run lint:fix"
+    "src/**/*.{tsx,jsx,js,html,scss,css}": "prettier --write",
+    "src/**/*.{tsx,jsx,js,ts}": "npm run lint:fix"
   }
 }
