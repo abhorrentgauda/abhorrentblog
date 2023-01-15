@@ -1,6 +1,6 @@
 {
   "singleQuote": true,
-  "trailingComma": "es6",
+  "trailingComma": "es5",
   "endOfLine": "lf",
   "printWidth": 120,
   "semi": true

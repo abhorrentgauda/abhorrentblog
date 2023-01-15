@@ -58,10 +58,11 @@
     "husky": "^8.0.0",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.3",
-    "sass": "^1.57.1"
+    "sass": "^1.57.1",
+    "tslint-plugin-prettier": "^2.3.0"
   },
   "lint-staged": {
     "src/**/*.{js,html,css,tsx}": "prettier --write",
-    "src/**/*.{js,tsx}": "npm run lint:fix"
+    "src/**/*.{js}": "npm run lint:fix"
   }
 }
