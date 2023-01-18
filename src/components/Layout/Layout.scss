@@ -1,0 +1,41 @@
+.header {
+  width: 1440px;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 16px 22px;
+  background-color: #ffffff;
+  align-items: center;
+  font-size: 18px;
+  line-height: 28px;
+  color: rgba(0, 0, 0, 0.85);
+
+  &-button {
+    background-color: white;
+    border: none;
+    font-family: 'Inter UI', sans-serif;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 28px;
+    padding: 8px 16px;
+
+    &--sign-in {
+      color: inherit;
+      box-sizing: content-box;
+      margin-right: 18px;
+
+      &:hover {
+        border: 1px solid rgba(0, 0, 0, 0.85);
+        border-radius: 5px;
+        padding-right: 15px;
+      }
+    }
+
+    &--sign-up {
+      border: 1px solid #52c41a;
+      border-radius: 5px;
+      color: #52c41a;
+    }
+  }
+}

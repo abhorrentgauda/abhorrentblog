@@ -1,7 +1,7 @@
 import './ArticleContainer.scss';
 
 function ArticleContainer() {
-  return <div>ARTICLE CONTAINER</div>;
+  return <div className="article-container" />;
 }
 
 export default ArticleContainer;
