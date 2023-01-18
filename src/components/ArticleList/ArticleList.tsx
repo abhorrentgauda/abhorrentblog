@@ -9,7 +9,6 @@ import ArticleDescription from '../ArticleDescription';
 function ArticleList() {
   const { articles, articlesCount } = useAppSelector((state) => state.articles.articles);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentOffset] = useState(0);
   const dispatch = useAppDispatch();
 
   const onChangePage = (e: number) => {
@@ -18,7 +17,7 @@ function ArticleList() {
   };
 
   useEffect(() => {
-    dispatch(fetchArticles(currentOffset));
+    dispatch(fetchArticles(0));
   }, [dispatch]);
 
   const articleList = articles.map((article, index) => (
