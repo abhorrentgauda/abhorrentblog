@@ -21,8 +21,13 @@ export interface IArticles {
   articlesCount: number;
 }
 
+export interface IArticleSlug {
+  article: IArticle;
+}
+
 export interface IArticlesPayload {
   articles: IArticles;
   status: string | null;
   error: string | null | undefined;
+  article: IArticle | null;
 }

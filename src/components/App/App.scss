@@ -1,5 +1,5 @@
 #root {
-  width: 1440;
+  width: 1440px;
   margin: auto;
   background-color: #ebeef3;
 }
@@ -12,4 +12,12 @@ a {
   font-family: 'Inter UI', sans-serif;
   font-style: normal;
   text-decoration: none;
+}
+
+.article-list {
+  padding: 26px 250px;
+  padding-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

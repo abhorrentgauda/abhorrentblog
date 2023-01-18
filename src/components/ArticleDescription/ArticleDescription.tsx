@@ -7,40 +7,36 @@ import { IArticle } from '../../types/interfaces';
 
 const ArticleDescription: React.FC<IArticle> = ({
   author,
-  // body,
   createdAt,
   description,
   // favorited,
   favoritesCount,
-  // slug,
+  slug,
   tagList,
   title,
 }) => (
   <>
-    <div className="article__info">
-      <div className="article__header">
-        <Link to="/article/" className="article__title">
+    <div className="article__info--preview">
+      <div className="article__header--preview">
+        <Link to={`articles/${slug}`} className="article__title--preview">
           {title}
         </Link>
-        <label className="article__label">
-          <button className="article__like" type="button" aria-label="like" />
+        <label className="article__label--preview">
+          <button className="article__like--preview" type="button" aria-label="like" />
           <span>{favoritesCount}</span>
         </label>
       </div>
-      <div className="article__tags">
+      <div className="article__tags--preview">
         {tagList.map((tag, index) => (
           <span key={index}>{tag}</span>
         ))}
       </div>
-      <p className="article__paragraph">{description}</p>
-      {/* <div className="article__body">
-        <ReactMarkdown>{body}</ReactMarkdown>
-      </div> */}
+      <p className="article__paragraph--preview">{description}</p>
     </div>
-    <div className="article__author">
-      <div className="article__credits">
-        <span className="article__name">{author.username}</span>
-        <span className="article__date">{format(new Date(createdAt), 'PP')}</span>
+    <div className="article__author--preview">
+      <div className="article__credits--preview">
+        <span className="article__name--preview">{author.username}</span>
+        <span className="article__date--preview">{format(new Date(createdAt), 'PP')}</span>
       </div>
       <img src={author.image} alt="" />
     </div>
