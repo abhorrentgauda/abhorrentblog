@@ -11,6 +11,10 @@
   line-height: 28px;
   color: rgba(0, 0, 0, 0.85);
 
+  &-name {
+    color: rgba(0, 0, 0, 0.85);
+  }
+
   &-button {
     background-color: white;
     border: none;
@@ -18,17 +22,18 @@
     font-style: normal;
     font-size: 18px;
     line-height: 28px;
-    padding: 8px 16px;
+    padding: 8px 14px;
 
     &--sign-in {
       color: inherit;
       box-sizing: content-box;
       margin-right: 18px;
+      border-radius: 5px;
+      padding: 10px 16px;
 
       &:hover {
-        border: 1px solid rgba(0, 0, 0, 0.85);
-        border-radius: 5px;
-        padding-right: 15px;
+        color: #ffffff;
+        background-color: rgba(0, 0, 0, 0.85);
       }
     }
 
@@ -36,6 +41,11 @@
       border: 1px solid #52c41a;
       border-radius: 5px;
       color: #52c41a;
+
+      &:hover {
+        color: #ffffff;
+        background-color: #52c41a;
+      }
     }
   }
 }

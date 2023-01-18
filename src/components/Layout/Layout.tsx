@@ -1,18 +1,20 @@
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 import './Layout.scss';
 
 const Layout = () => (
   <>
     <header className="header">
-      <span className="header-name">Realworld Blog</span>
+      <Link to="/" className="header-name">
+        Realworld Blog
+      </Link>
       <div>
-        <button type="button" className="header-button header-button--sign-in">
+        <Link to="login" className="header-button header-button--sign-in">
           Sign In
-        </button>
-        <button type="button" className="header-button header-button--sign-up">
+        </Link>
+        <Link to="register" className="header-button header-button--sign-up">
           Sign Up
-        </button>
+        </Link>
       </div>
     </header>
 

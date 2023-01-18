@@ -52,7 +52,7 @@ const Article = () => {
   ) : (
     <Spin size="large" />
   );
-  return <div className="article-list">{content}</div>;
+  return <div className="container">{content}</div>;
 };
 
 export default Article;
