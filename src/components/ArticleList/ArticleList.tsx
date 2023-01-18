@@ -1,10 +1,10 @@
 import './ArticleList.scss';
-import { Pagination } from 'antd';
+import { Pagination, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchArticles } from '../../store/articleSlice';
-import ArticleDescription from '../ArticleDescription';
+import ArticlePreview from '../ArticlePreview/ArticlePreview';
 
 function ArticleList() {
   const { articles, articlesCount } = useAppSelector((state) => state.articles.articles);
@@ -22,7 +22,7 @@ function ArticleList() {
 
   const articleList = articles.map((article, index) => (
     <div className="article-preview" key={index + 1}>
-      <ArticleDescription
+      <ArticlePreview
         author={article.author}
         body={article.body}
         createdAt={article.createdAt}
@@ -35,9 +35,11 @@ function ArticleList() {
       />
     </div>
   ));
+
+  const content = articlesCount ? articleList : <Spin size="large" />;
   return (
     <div className="article-list">
-      {articleList}
+      {content}
       <Pagination
         current={currentPage}
         total={articlesCount}

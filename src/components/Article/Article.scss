@@ -1,16 +1,21 @@
 .article {
   width: 941px;
-  height: 850px;
+  min-height: 600px;
   background: #ffffff;
   border-radius: 5px;
 
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   margin: auto;
 
   padding: 16px;
   box-sizing: border-box;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+
+  &__preview {
+    display: flex;
+    justify-content: space-between;
+  }
 
   &__info {
     display: flex;

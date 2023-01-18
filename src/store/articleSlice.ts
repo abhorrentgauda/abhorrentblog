@@ -43,6 +43,7 @@ const articleSlice = createSlice({
     builder.addCase(fetchArticles.pending, (state) => {
       state.status = 'pending';
       state.error = null;
+      state.articles = { articles: [], articlesCount: 0 };
     });
     builder.addCase(fetchArticles.fulfilled, (state, action) => {
       state.articles.articles = action.payload.articles;
@@ -56,6 +57,7 @@ const articleSlice = createSlice({
     builder.addCase(fetchArticle.pending, (state) => {
       state.status = 'pending';
       state.error = null;
+      state.article = null;
     });
     builder.addCase(fetchArticle.fulfilled, (state, action) => {
       state.article = action.payload.article;

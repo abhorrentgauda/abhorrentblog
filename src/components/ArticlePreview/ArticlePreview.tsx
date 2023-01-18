@@ -1,11 +1,11 @@
-import './ArticleDescription.scss';
+import './ArticlePreview.scss';
 import React from 'react';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 
 import { IArticle } from '../../types/interfaces';
 
-const ArticleDescription: React.FC<IArticle> = ({
+const ArticlePreview: React.FC<IArticle> = ({
   author,
   createdAt,
   description,
@@ -43,4 +43,4 @@ const ArticleDescription: React.FC<IArticle> = ({
   </>
 );
 
-export default ArticleDescription;
+export default ArticlePreview;
