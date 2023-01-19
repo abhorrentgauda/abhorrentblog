@@ -31,3 +31,37 @@ export interface IArticlesPayload {
   error: string | null | undefined;
   article: IArticle | null;
 }
+
+export interface IRegisterForm {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface ILoginForm {
+  email: string;
+  password: string;
+}
+
+export interface IEditProfile {
+  email: string;
+  password: string;
+  username: string;
+  bio?: string;
+  image: string;
+}
+
+export interface IUserInfo {
+  user: {
+    email: string;
+    token: string;
+    username: string;
+    bio: string;
+    image: string;
+  };
+}
+
+export interface IUserPayload {
+  user: IUserInfo;
+  error: string | null | undefined;
+}

@@ -20,13 +20,13 @@
   &__info {
     display: flex;
     flex-direction: column;
-    overflow: visible;
+    overflow-wrap: break-word;
     width: 750px;
   }
 
   &__header {
     display: flex;
-    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 
   &__label {
@@ -47,6 +47,7 @@
     font-size: 20px;
     line-height: 28px;
     color: rgba(0, 0, 0, 0.75);
+    overflow-wrap: anywhere;
   }
 
   &__like {
@@ -78,7 +79,6 @@
 
   &__tags {
     margin-bottom: 4px;
-    width: 652px;
 
     span {
       border: 1px solid rgba(0, 0, 0, 0.5);
@@ -101,7 +101,6 @@
 
     overflow-wrap: break-word;
 
-    width: 652px;
     max-height: 100%;
   }
 

@@ -44,7 +44,6 @@ const Article = () => {
           <img src={article.author.image} alt="" />
         </div>
       </div>
-
       <div className="article__body">
         <Markdown>{article.body}</Markdown>
       </div>

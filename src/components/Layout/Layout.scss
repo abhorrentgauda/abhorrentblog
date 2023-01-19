@@ -15,6 +15,29 @@
     color: rgba(0, 0, 0, 0.85);
   }
 
+  &-buttons {
+    display: flex;
+    align-items: center;
+  }
+
+  &-user {
+    margin-left: 27px;
+
+    a {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      line-height: 28px;
+      color: rgba(0, 0, 0, 0.85);
+    }
+
+    img {
+      width: 46px;
+      height: 46px;
+      margin-left: 13px;
+    }
+  }
+
   &-button {
     background-color: white;
     border: none;
@@ -38,6 +61,29 @@
     }
 
     &--sign-up {
+      border: 1px solid #52c41a;
+      border-radius: 5px;
+      color: #52c41a;
+
+      &:hover {
+        color: #ffffff;
+        background-color: #52c41a;
+      }
+    }
+
+    &--log-out {
+      border: 1px solid rgba(0, 0, 0, 0.75);
+      border-radius: 5px;
+      color: rgba(0, 0, 0, 0.75);
+      margin-left: 27px;
+
+      &:hover {
+        color: #ffffff;
+        background-color: rgba(0, 0, 0, 0.75);
+      }
+    }
+
+    &--create-article {
       border: 1px solid #52c41a;
       border-radius: 5px;
       color: #52c41a;

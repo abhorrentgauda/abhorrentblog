@@ -30,7 +30,9 @@
     line-height: 22px;
   }
 
-  input[type='text'] {
+  input[type='text'],
+  input[type='email'],
+  input[type='password'] {
     box-sizing: border-box;
     padding: 8px 12px;
     width: 320px;
