@@ -1,6 +1,6 @@
 .registration {
   width: 384px;
-  height: 599px;
+  min-height: 599px;
   background-color: #ffffff;
   margin: auto;
   box-sizing: border-box;
@@ -28,16 +28,26 @@
   label {
     font-size: 14px;
     line-height: 22px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
   }
 
-  input[type='text'],
-  input[type='email'],
-  input[type='password'] {
+  &__error {
+    font-size: 14px;
+    line-height: 22px;
+    color: #f5222d;
+  }
+
+  &__username,
+  &__email,
+  &__password,
+  &__rep-password {
     box-sizing: border-box;
     padding: 8px 12px;
     width: 320px;
     height: 40px;
-    margin-bottom: 12px;
+    margin-bottom: 2px;
     color: #262626;
     border: 1px solid #d9d9d9;
     border-radius: 4px;
@@ -45,6 +55,38 @@
 
   input::placeholder {
     color: #bfbfbf;
+  }
+
+  &__password--error {
+    border: 1px solid #f5222d;
+
+    &:focus {
+      outline-color: #f5222d;
+    }
+  }
+
+  &__email--error {
+    border: 1px solid #f5222d;
+
+    &:focus {
+      outline-color: #f5222d;
+    }
+  }
+
+  &__username--error {
+    border: 1px solid #f5222d;
+
+    &:focus {
+      outline-color: #f5222d;
+    }
+  }
+
+  &__rep-password--error {
+    border: 1px solid #f5222d;
+
+    &:focus {
+      outline-color: #f5222d;
+    }
   }
 
   &__policy {
@@ -55,6 +97,7 @@
     padding-top: 8px;
     border-top: 1px solid #e8e8e8;
     cursor: pointer;
+    display: flex;
 
     &-checkbox {
       position: absolute;
@@ -78,8 +121,8 @@
       height: 16px;
       border: 1px solid #1890ff;
       border-radius: 2px;
-      margin-left: -98px;
-      margin-top: -21px;
+      margin-left: -26px;
+      margin-top: 1px;
       background-color: #ffffff;
 
       &::after {
@@ -109,6 +152,7 @@
     color: #ffffff;
     margin-bottom: 12px;
     cursor: pointer;
+    width: 100%;
   }
 
   &__signin {

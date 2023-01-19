@@ -38,6 +38,14 @@ export interface IRegisterForm {
   password: string;
 }
 
+export interface IRefigsterAuth {
+  username: string;
+  email: string;
+  password: string;
+  repeatedPass: string;
+  isAgreed: boolean;
+}
+
 export interface ILoginForm {
   email: string;
   password: string;

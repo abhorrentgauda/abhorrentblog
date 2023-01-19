@@ -46,13 +46,14 @@ const Layout = () => {
             />
           </Link>
         </div>
-        <button
+        <Link
           type="button"
+          to="/"
           className="header-button header-button--log-out"
           onClick={() => dispatch(removeUser())}
         >
           Log Out
-        </button>
+        </Link>
       </div>
     </header>
   ) : (

@@ -52,7 +52,7 @@ const LoginForm = () => {
           Login
         </button>
         <span className="login__signup">
-          Don&apos;t have an account? <Link to="/sign-up">Sign Up</Link>.
+          Don&#39;t have an account? <Link to="/sign-up">Sign Up</Link>.
         </span>
       </div>
     </div>
