@@ -1,13 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import articleReducer from './articleSlice';
 import userReducer from './userSlice';
+import { articlesApi } from './articlesApi';
 
 const store = configureStore({
   reducer: {
-    articles: articleReducer,
     user: userReducer,
+    [articlesApi.reducerPath]: articlesApi.reducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(articlesApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;
