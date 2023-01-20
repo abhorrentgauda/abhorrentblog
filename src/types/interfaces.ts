@@ -85,3 +85,9 @@ export interface IUserPayload {
   user: IUserInfo;
   error: string | null | undefined;
 }
+
+export interface IErrorAuth {
+  errors: {
+    body: string[];
+  };
+}

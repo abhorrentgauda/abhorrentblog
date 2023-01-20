@@ -9,9 +9,9 @@ import { useFetchArticleQuery } from '../../store/articlesApi';
 
 const Article = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { data } = useFetchArticleQuery(slug || '');
+  const { data, isLoading } = useFetchArticleQuery(slug || '');
 
-  const content = data ? (
+  const content = data && (
     <div className="article">
       <div className="article__preview">
         <div className="article__info">
@@ -41,10 +41,13 @@ const Article = () => {
         <Markdown>{data.article.body}</Markdown>
       </div>
     </div>
-  ) : (
-    <Spin size="large" />
   );
-  return <div className="container">{content}</div>;
+  return (
+    <div className="container">
+      {content}
+      {isLoading && <Spin size="large" />}
+    </div>
+  );
 };
 
 export default Article;

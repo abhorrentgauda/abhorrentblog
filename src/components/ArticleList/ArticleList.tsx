@@ -9,25 +9,26 @@ function ArticleList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [offset, setOffset] = useState(0);
 
-  const { data } = useFetchArticlesQuery(offset);
+  const { data, isLoading, error } = useFetchArticlesQuery(offset);
 
   const onChangePage = (e: number) => {
     setOffset(e * 5 - 5);
     setCurrentPage(e);
   };
 
-  const articleList = data?.articles
-    ? data.articles.map((article, index) => (
-        <div className="article-preview" key={index + 1}>
-          <ArticlePreview {...article} />
-        </div>
-      ))
-    : null;
+  const articleList =
+    data?.articles &&
+    data.articles.map((article, index) => (
+      <div className="article-preview" key={index + 1}>
+        <ArticlePreview {...article} />
+      </div>
+    ));
 
-  const content = data?.articlesCount ? articleList : <Spin size="large" />;
   return (
     <div className="article-list">
-      {content}
+      {articleList}
+      {isLoading && <Spin size="large" />}
+      {error && <p>error</p>}
       <Pagination
         current={currentPage}
         total={data?.articlesCount}

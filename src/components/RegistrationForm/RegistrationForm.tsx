@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import './RegistrationForm.scss';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { registerUser } from '../../store/userSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useRegisterUserMutation } from '../../store/userApi';
 import { IRefigsterAuth } from '../../types/interfaces';
+import { isFetchBaseQueryError } from '../helpers/errorHelper';
 
 const RegistrationForm = () => {
   const {
@@ -14,21 +14,25 @@ const RegistrationForm = () => {
     watch,
     formState: { errors },
   } = useForm<IRefigsterAuth>();
+  const [registerUser] = useRegisterUserMutation();
 
-  const { token } = useAppSelector((state) => state.user.user.user);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const password = useRef({});
   password.current = watch('password', '');
-  const onSubmit: SubmitHandler<IRefigsterAuth> = (data) => {
+  const onSubmit: SubmitHandler<IRefigsterAuth> = async (data) => {
     const { username, email, password } = data;
-    dispatch(registerUser({ username, email, password }));
+    try {
+      const result = await registerUser({ username, email, password }).unwrap();
+      localStorage.setItem('token', result.user.token);
+      navigate('/');
+    } catch (err) {
+      if (isFetchBaseQueryError(err)) {
+        const errMsg = 'error' in err ? err.error : JSON.stringify(err.data);
+        console.log(errMsg);
+      }
+    }
   };
-
-  useEffect(() => {
-    if (token) navigate('/');
-  }, [token]);
 
   return (
     <div className="container">

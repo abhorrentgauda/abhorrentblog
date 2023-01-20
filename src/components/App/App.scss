@@ -30,4 +30,7 @@ a {
 
 .ant-spin-spinning {
   display: block;
+  max-width: 100vw;
+  max-height: 100vh;
+  padding: 250px;
 }

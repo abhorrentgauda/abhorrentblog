@@ -1,26 +1,12 @@
 import { Link, Outlet } from 'react-router-dom';
-import { useEffect } from 'react';
 
-import { getUser, removeUser } from '../../store/userSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useGetUserQuery } from '../../store/userApi';
 import './Layout.scss';
 
 const Layout = () => {
-  const {
-    user: {
-      user: { username, email, image },
-    },
-  } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
+  const { data } = useGetUserQuery();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      dispatch(getUser(token));
-    }
-  });
-
-  const header = email ? (
+  const header = data ? (
     <header className="header">
       <Link to="/" className="header-name">
         Realworld Blog
@@ -31,9 +17,9 @@ const Layout = () => {
         </Link>
         <div className="header-user">
           <Link to="profile">
-            {username}
+            {data.user.username}
             <img
-              src={image || 'https://static.productionready.io/images/smiley-cyrus.jpg'}
+              src={data.user.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'}
               alt=""
             />
           </Link>
@@ -42,7 +28,7 @@ const Layout = () => {
           type="button"
           to="/"
           className="header-button header-button--log-out"
-          onClick={() => dispatch(removeUser())}
+          onClick={() => localStorage.removeItem('token')}
         >
           Log Out
         </Link>
