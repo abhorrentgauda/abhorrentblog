@@ -1,81 +1,101 @@
-import { useEffect, useState } from 'react';
-import './EditProfile.scss';
-import { useNavigate } from 'react-router-dom';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
+import { IEditAuth } from '../../types/interfaces';
 import { editUser } from '../../store/userSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
+
+import './EditProfile.scss';
 
 const EditProfile = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [image, setImage] = useState('');
-
-  const navigate = useNavigate();
-
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.user.user);
 
-  const handleEdit = (username: string, email: string, password: string, image: string) => {
-    if (!username) username = user.username;
-    if (!email) username = user.email;
-    if (!password) password = localStorage.getItem('password') || '';
-    if (!image) image = user.image;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitted },
+  } = useForm<IEditAuth>();
+  const onSubmit: SubmitHandler<IEditAuth> = async (data) => {
+    const { username, email, password, image } = data;
+    const result = await dispatch(editUser({ username, email, password, image }));
 
-    dispatch(editUser({ username, email, password, image }));
-
-    setUsername('');
-    setEmail('');
-    setPassword('');
-    setImage('');
+    if (typeof result.payload !== 'string')
+      reset({ username: '', email: '', image: '', password: '' });
   };
-
-  useEffect(() => {
-    if (!user.token) navigate('/');
-  }, [user.token]);
 
   return (
     <div className="container">
       <div className="edit-profile">
         <span className="edit-profile__title">Edit Profile</span>
-        <label>Username</label>
-        <input
-          placeholder="Username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <label>Email address</label>
-        <input
-          placeholder="Email address"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value.toLowerCase())}
-        />
-        <label>New password</label>
-        <input
-          placeholder="New password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <label>Avatar image (url)</label>
-        <input
-          placeholder="Avatar image"
-          type="text"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
-        <button
-          className="edit-profile__button"
-          type="button"
-          onClick={() => handleEdit(username, email, password, image)}
-        >
-          Save
-        </button>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <label>
+            Username
+            <input
+              className="edit-profile__username"
+              placeholder="Username"
+              type="text"
+              {...register('username', { required: 'Username is required' })}
+            />
+            {errors.username && <p className="auth__error">{errors.username.message}</p>}
+          </label>
+
+          <label>
+            Email address
+            <input
+              placeholder="Email address"
+              type="email"
+              className="edit-profile__email"
+              {...register('email', {
+                required: 'Email is required',
+                pattern: {
+                  value: /\S+@\S+\.\S+/,
+                  message: 'You should enter valid email address',
+                },
+              })}
+            />
+            {errors.email && <p className="auth__error">{errors.email.message}</p>}
+          </label>
+
+          <label>
+            New password
+            <input
+              placeholder="New password"
+              type="password"
+              className="edit-profile__password"
+              {...register('password', {
+                required: 'You must specify a password',
+                minLength: { value: 4, message: 'Password should be at least 4 characters' },
+                maxLength: {
+                  value: 40,
+                  message: 'Password can not be longer than 40 characters',
+                },
+              })}
+            />
+            {errors.password && <p className="auth__error">{errors.password.message}</p>}
+          </label>
+
+          <label>
+            Avatar image (url)
+            <input
+              placeholder="Avatar image"
+              type="url"
+              className="edit-profile__image"
+              {...register('image', {
+                required: 'Image address is required',
+                pattern: {
+                  value:
+                    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/,
+                  message: 'You should enter valid image address',
+                },
+              })}
+            />
+            {errors.image && <p className="auth__error">{errors.image.message}</p>}
+          </label>
+          <input className="edit-profile__button" type="submit" value="Save" />
+          {isSubmitted && <p className="auth__success">Profile was edited succesfully</p>}
+        </form>
       </div>
     </div>
   );
 };
-
 export default EditProfile;

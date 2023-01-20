@@ -51,6 +51,13 @@ export interface ILoginAuth {
   password: string;
 }
 
+export interface IEditAuth {
+  username: string;
+  email: string;
+  password: string;
+  image: string;
+}
+
 export interface ILoginForm {
   email: string;
   password: string;

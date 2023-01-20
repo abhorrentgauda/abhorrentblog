@@ -155,6 +155,7 @@ const userSlice = createSlice({
       state.user.user.token = action.payload.user.token;
       state.user.user.bio = action.payload.user.bio;
       state.user.user.image = action.payload.user.image;
+      localStorage.setItem('token', action.payload.user.token);
     });
     builder.addCase(getUser.rejected, (state, action) => {
       state.error = action.payload;

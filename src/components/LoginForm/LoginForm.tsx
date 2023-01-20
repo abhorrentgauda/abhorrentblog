@@ -39,7 +39,7 @@ const LoginForm = () => {
               placeholder="Email address"
               type="email"
               {...register('email', {
-                required: 'Email is required.',
+                required: 'Email is required',
                 pattern: {
                   value: /\S+@\S+\.\S+/,
                   message: 'You should enter valid email address',
@@ -54,7 +54,7 @@ const LoginForm = () => {
               className="login__password"
               placeholder="Password"
               type="password"
-              {...register('password', { required: 'Password is required.' })}
+              {...register('password', { required: 'Password is required' })}
             />
             {errors.password && <p className="auth__error">{errors.password.message}</p>}
           </label>

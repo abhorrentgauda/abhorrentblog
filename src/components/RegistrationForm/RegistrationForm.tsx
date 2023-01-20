@@ -54,7 +54,7 @@ const RegistrationForm = () => {
                 },
               })}
             />
-            {errors?.username?.message && <p className="auth__error">{errors.username.message}</p>}
+            {errors.username && <p className="auth__error">{errors.username.message}</p>}
           </label>
 
           <label>

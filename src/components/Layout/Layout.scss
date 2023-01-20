@@ -96,8 +96,16 @@
   }
 }
 
-.auth__error {
-  font-size: 14px;
-  line-height: 22px;
-  color: #f5222d;
+.auth {
+  &__error {
+    font-size: 14px;
+    line-height: 22px;
+    color: #f5222d;
+  }
+
+  &__success {
+    font-size: 14px;
+    line-height: 22px;
+    color: #52c41a;
+  }
 }
