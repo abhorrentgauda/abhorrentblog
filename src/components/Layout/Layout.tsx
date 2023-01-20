@@ -1,34 +1,26 @@
 import { Link, Outlet } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import { loginUser, removeUser } from '../../store/userSlice';
+import { getUser, removeUser } from '../../store/userSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import './Layout.scss';
 
 const Layout = () => {
   const {
     user: {
-      user: { username, token, image },
+      user: { username, email, image },
     },
   } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (localStorage.getItem('password')) {
-      if (localStorage.getItem('email')) {
-        const emailStorage = localStorage.getItem('email') || '';
-        const passwordStorage = localStorage.getItem('password') || '';
-        dispatch(
-          loginUser({
-            email: emailStorage,
-            password: passwordStorage,
-          }),
-        );
-      }
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(getUser(token));
     }
   });
 
-  const header = token ? (
+  const header = email ? (
     <header className="header">
       <Link to="/" className="header-name">
         Realworld Blog

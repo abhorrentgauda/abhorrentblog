@@ -1,6 +1,6 @@
 .login {
   width: 384px;
-  height: 374px;
+  min-height: 374px;
   background-color: #ffffff;
   margin: auto;
   box-sizing: border-box;
@@ -28,16 +28,18 @@
   label {
     font-size: 14px;
     line-height: 22px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
   }
 
-  input[type='text'],
-  input[type='email'],
-  input[type='password'] {
+  &__email,
+  &__password {
     box-sizing: border-box;
     padding: 8px 12px;
     width: 320px;
     height: 40px;
-    margin-bottom: 12px;
+    margin-bottom: 2px;
     color: #262626;
     border: 1px solid #d9d9d9;
     border-radius: 4px;
@@ -58,6 +60,7 @@
     margin-top: 9px;
     margin-bottom: 12px;
     cursor: pointer;
+    width: 100%;
   }
 
   &__signup {

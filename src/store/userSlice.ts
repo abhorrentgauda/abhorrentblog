@@ -8,6 +8,25 @@ import {
   IUserPayload,
 } from '../types/interfaces';
 
+export const getUser = createAsyncThunk<IUserInfo, string, { rejectValue: string }>(
+  'user/getUser',
+  async (token, { rejectWithValue }) => {
+    const response = await fetch('https://blog.kata.academy/api/user', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      return rejectWithValue('Server Error');
+    }
+
+    const data = response.json();
+    return data;
+  },
+);
+
 export const registerUser = createAsyncThunk<IUserInfo, IRegisterForm, { rejectValue: string }>(
   'user/registerUser',
   async (user, { rejectWithValue }) => {
@@ -20,11 +39,10 @@ export const registerUser = createAsyncThunk<IUserInfo, IRegisterForm, { rejectV
     });
 
     if (!response.ok) {
-      return rejectWithValue('Server error!');
+      return rejectWithValue('Server Error');
     }
 
     const data = response.json();
-
     return data;
   },
 );
@@ -105,9 +123,7 @@ const userSlice = createSlice({
       state.user.user.token = action.payload.user.token;
       state.user.user.bio = action.payload.user.bio;
       state.user.user.image = action.payload.user.image;
-      localStorage.setItem('username', action.payload.user.username);
       localStorage.setItem('token', action.payload.user.token);
-      localStorage.setItem('email', action.payload.user.email);
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.error = action.payload;
@@ -118,9 +134,7 @@ const userSlice = createSlice({
       state.user.user.token = action.payload.user.token;
       state.user.user.bio = action.payload.user.bio;
       state.user.user.image = action.payload.user.image;
-      localStorage.setItem('username', action.payload.user.username);
       localStorage.setItem('token', action.payload.user.token);
-      localStorage.setItem('email', action.payload.user.email);
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.error = action.payload;
@@ -133,6 +147,16 @@ const userSlice = createSlice({
       state.user.user.image = action.payload.user.image;
     });
     builder.addCase(editUser.rejected, (state, action) => {
+      state.error = action.payload;
+    });
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      state.user.user.username = action.payload.user.username;
+      state.user.user.email = action.payload.user.email;
+      state.user.user.token = action.payload.user.token;
+      state.user.user.bio = action.payload.user.bio;
+      state.user.user.image = action.payload.user.image;
+    });
+    builder.addCase(getUser.rejected, (state, action) => {
       state.error = action.payload;
     });
   },

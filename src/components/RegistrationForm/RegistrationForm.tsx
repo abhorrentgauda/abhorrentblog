@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { registerUser } from '../../store/userSlice';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { IRefigsterAuth } from '../../types/interfaces';
 
 const RegistrationForm = () => {
@@ -15,6 +15,7 @@ const RegistrationForm = () => {
     formState: { errors },
   } = useForm<IRefigsterAuth>();
 
+  const { token } = useAppSelector((state) => state.user.user.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -22,14 +23,12 @@ const RegistrationForm = () => {
   password.current = watch('password', '');
   const onSubmit: SubmitHandler<IRefigsterAuth> = (data) => {
     const { username, email, password } = data;
-    localStorage.setItem('password', data.password);
     dispatch(registerUser({ username, email, password }));
-    navigate('/');
   };
 
   useEffect(() => {
-    if (localStorage.getItem('token')) navigate('/');
-  }, []);
+    if (token) navigate('/');
+  }, [token]);
 
   return (
     <div className="container">
@@ -55,9 +54,7 @@ const RegistrationForm = () => {
                 },
               })}
             />
-            {errors?.username?.message && (
-              <p className="registration__error">{errors.username.message}</p>
-            )}
+            {errors?.username?.message && <p className="auth__error">{errors.username.message}</p>}
           </label>
 
           <label>
@@ -74,11 +71,11 @@ const RegistrationForm = () => {
                 required: 'Email is required',
                 pattern: {
                   value: /\S+@\S+\.\S+/,
-                  message: 'Entered value does not match email format',
+                  message: 'You should enter valid email address',
                 },
               })}
             />
-            {errors.email && <p className="registration__error">{errors.email.message}</p>}
+            {errors.email && <p className="auth__error">{errors.email.message}</p>}
           </label>
 
           <label>
@@ -100,7 +97,7 @@ const RegistrationForm = () => {
                 },
               })}
             />
-            {errors.password && <p className="registration__error">{errors.password.message}</p>}
+            {errors.password && <p className="auth__error">{errors.password.message}</p>}
           </label>
 
           <label>
@@ -117,9 +114,7 @@ const RegistrationForm = () => {
                 validate: (value) => value === password.current || 'The passwords do not match',
               })}
             />
-            {errors.repeatedPass && (
-              <p className="registration__error">{errors.repeatedPass.message}</p>
-            )}
+            {errors.repeatedPass && <p className="auth__error">{errors.repeatedPass.message}</p>}
           </label>
 
           <label className="registration__policy">
@@ -129,7 +124,7 @@ const RegistrationForm = () => {
               className="registration__policy-checkbox"
               {...register('isAgreed', { required: 'This field is required' })}
             />
-            {errors.isAgreed && <p className="registration__error">{errors.isAgreed.message}</p>}
+            {errors.isAgreed && <p className="auth__error">{errors.isAgreed.message}</p>}
             <span className="registration__policy-name" />
           </label>
           <input className="registration__button" type="submit" value="Create" />
