@@ -37,6 +37,7 @@ function ArticleList() {
         showSizeChanger={false}
         size="small"
         pageSize={5}
+        hideOnSinglePage
       />
     </div>
   );
