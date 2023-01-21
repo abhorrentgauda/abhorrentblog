@@ -25,13 +25,6 @@ export interface IArticleSlug {
   article: IArticle;
 }
 
-export interface IArticlesPayload {
-  articles: IArticles;
-  status: string | null;
-  error: string | null | undefined;
-  article: IArticle | null;
-}
-
 export interface IRegisterForm {
   username: string;
   email: string;
@@ -46,12 +39,7 @@ export interface IRefigsterAuth {
   isAgreed: boolean;
 }
 
-export interface ILoginAuth {
-  email: string;
-  password: string;
-}
-
-export interface IEditAuth {
+export interface IEditProfile {
   username: string;
   email: string;
   password: string;
@@ -61,14 +49,6 @@ export interface IEditAuth {
 export interface ILoginForm {
   email: string;
   password: string;
-}
-
-export interface IEditProfile {
-  email: string;
-  password: string;
-  username: string;
-  bio?: string;
-  image: string;
 }
 
 export interface IUserInfo {
@@ -81,13 +61,6 @@ export interface IUserInfo {
   };
 }
 
-export interface IUserPayload {
-  user: IUserInfo;
-  error: string | null | undefined;
-}
-
-export interface IErrorAuth {
-  errors: {
-    body: string[];
-  };
+export interface IAuthToken {
+  token: string;
 }

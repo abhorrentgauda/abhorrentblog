@@ -1,31 +1,46 @@
-import './LoginForm.scss';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { loginUser } from '../../store/userSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { ILoginAuth } from '../../types/interfaces';
+import { useAppDispatch } from '../../hooks';
+import { ILoginForm } from '../../types/interfaces';
+import { setToken } from '../../store/authSlice';
+import { useLoginUserMutation } from '../../store/userApi';
+import { isFetchBaseQueryError } from '../helpers/errorHelper';
+
+import './LoginForm.scss';
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILoginAuth>();
+  } = useForm<ILoginForm>();
 
-  const { token } = useAppSelector((state) => state.user.user.user);
+  const [error, setError] = useState('');
+
+  const [loginUser] = useLoginUserMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<ILoginAuth> = (data) => {
+  const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
     const { email, password } = data;
-    dispatch(loginUser({ email, password }));
-  };
+    try {
+      // Получаем респонс запроса, диспатчим полученный токен и заносим в локалсторедж
+      const result = await loginUser({ email, password }).unwrap();
+      dispatch(setToken({ token: result.user.token }));
+      localStorage.setItem('token', result.user.token);
 
-  useEffect(() => {
-    if (token) navigate('/');
-  }, [token]);
+      // уходим на главную страницу после удачного сабмита
+      navigate('/');
+    } catch (err) {
+      if (isFetchBaseQueryError(err)) {
+        // Проверяем тип ошибки и ее статус, в случае 422 устанавливаем сообщение ошибки
+
+        if (err.status === 422) setError('Invalid email or password');
+      }
+    }
+  };
 
   return (
     <div className="container">
@@ -44,6 +59,7 @@ const LoginForm = () => {
                   value: /\S+@\S+\.\S+/,
                   message: 'You should enter valid email address',
                 },
+                onChange: () => setError(''),
               })}
             />
             {errors.email && <p className="auth__error">{errors.email.message}</p>}
@@ -54,9 +70,13 @@ const LoginForm = () => {
               className="login__password"
               placeholder="Password"
               type="password"
-              {...register('password', { required: 'Password is required' })}
+              {...register('password', {
+                required: 'Password is required',
+                onChange: () => setError(''),
+              })}
             />
             {errors.password && <p className="auth__error">{errors.password.message}</p>}
+            {error && <p className="auth__error">{error}</p>}
           </label>
           <input className="login__button" type="submit" value="Login" />
         </form>

@@ -124,6 +124,10 @@
         position: absolute;
         display: none;
       }
+
+      &--error {
+        border: 1px solid #f5222d;
+      }
     }
 
     &-name::after {

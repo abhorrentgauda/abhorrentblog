@@ -9,9 +9,11 @@ export const articlesApi = createApi({
   endpoints: (builder) => ({
     fetchArticles: builder.query<IArticles, number>({
       query: (offset) => `articles?limit=5&offset=${offset}`,
+      providesTags: ['Articles'],
     }),
     fetchArticle: builder.query<IArticleSlug, string>({
       query: (slug) => `articles/${slug}`,
+      providesTags: ['Articles'],
     }),
   }),
 });

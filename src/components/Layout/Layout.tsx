@@ -1,12 +1,16 @@
 import { Link, Outlet } from 'react-router-dom';
 
 import { useGetUserQuery } from '../../store/userApi';
+import { logOut } from '../../store/authSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import './Layout.scss';
 
 const Layout = () => {
   const { data } = useGetUserQuery();
+  const { token } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
-  const header = data ? (
+  const header = token ? (
     <header className="header">
       <Link to="/" className="header-name">
         Realworld Blog
@@ -17,9 +21,9 @@ const Layout = () => {
         </Link>
         <div className="header-user">
           <Link to="profile">
-            {data.user.username}
+            {data?.user.username}
             <img
-              src={data.user.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'}
+              src={data?.user.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'}
               alt=""
             />
           </Link>
@@ -28,7 +32,7 @@ const Layout = () => {
           type="button"
           to="/"
           className="header-button header-button--log-out"
-          onClick={() => localStorage.removeItem('token')}
+          onClick={() => dispatch(logOut())}
         >
           Log Out
         </Link>

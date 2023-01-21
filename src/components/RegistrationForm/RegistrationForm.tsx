@@ -1,13 +1,20 @@
-import { useRef } from 'react';
-import './RegistrationForm.scss';
+import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { useRegisterUserMutation } from '../../store/userApi';
 import { IRefigsterAuth } from '../../types/interfaces';
 import { isFetchBaseQueryError } from '../helpers/errorHelper';
+import { useAppDispatch } from '../../hooks';
+import { setToken } from '../../store/authSlice';
+
+import './RegistrationForm.scss';
 
 const RegistrationForm = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
+
   const {
     register,
     handleSubmit,
@@ -15,24 +22,47 @@ const RegistrationForm = () => {
     formState: { errors },
   } = useForm<IRefigsterAuth>();
   const [registerUser] = useRegisterUserMutation();
-
-  const navigate = useNavigate();
-
   const password = useRef({});
   password.current = watch('password', '');
+
   const onSubmit: SubmitHandler<IRefigsterAuth> = async (data) => {
     const { username, email, password } = data;
     try {
+      // Получаем респонс запроса, диспатчим полученный токен и заносим в локалсторедж
       const result = await registerUser({ username, email, password }).unwrap();
+      dispatch(setToken({ token: result.user.token }));
       localStorage.setItem('token', result.user.token);
+
+      // уходим на главную страницу после удачного сабмита
       navigate('/');
     } catch (err) {
       if (isFetchBaseQueryError(err)) {
+        // Проверяем тип ошибки
         const errMsg = 'error' in err ? err.error : JSON.stringify(err.data);
-        console.log(errMsg);
+
+        // у errMsg тип string, поэтому проверяю методом includes наличие слов
+        // по которым можно распознать ошибку
+        if (errMsg.includes('username')) {
+          setError('Username is already taken');
+        }
+        if (errMsg.includes('email')) {
+          setError('Email is already taken');
+        }
       }
     }
   };
+
+  const usernameError = errors.username ? (
+    <p className="auth__error">{errors.username.message}</p>
+  ) : error.includes('Username') ? (
+    <p className="auth__error">{error}</p>
+  ) : null;
+
+  const emailError = errors.email ? (
+    <p className="auth__error">{errors.email.message}</p>
+  ) : error.includes('Email') ? (
+    <p className="auth__error">{error}</p>
+  ) : null;
 
   return (
     <div className="container">
@@ -56,16 +86,17 @@ const RegistrationForm = () => {
                   value: 20,
                   message: 'Username can not be longer than 20 characters',
                 },
+                onChange: () => setError(''),
               })}
             />
-            {errors.username && <p className="auth__error">{errors.username.message}</p>}
+            {usernameError}
           </label>
 
           <label>
             Email address
             <input
               className={
-                !errors.email
+                !(errors.email || error.includes('Email'))
                   ? 'registration__email'
                   : 'registration__email registration__email--error'
               }
@@ -77,9 +108,10 @@ const RegistrationForm = () => {
                   value: /\S+@\S+\.\S+/,
                   message: 'You should enter valid email address',
                 },
+                onChange: () => setError(''),
               })}
             />
-            {errors.email && <p className="auth__error">{errors.email.message}</p>}
+            {emailError}
           </label>
 
           <label>
@@ -115,7 +147,8 @@ const RegistrationForm = () => {
               placeholder="Password"
               type="password"
               {...register('repeatedPass', {
-                validate: (value) => value === password.current || 'The passwords do not match',
+                required: 'You must repeat password',
+                validate: (value) => value === password.current || 'Passwords do not match',
               })}
             />
             {errors.repeatedPass && <p className="auth__error">{errors.repeatedPass.message}</p>}
@@ -129,7 +162,13 @@ const RegistrationForm = () => {
               {...register('isAgreed', { required: 'This field is required' })}
             />
             {errors.isAgreed && <p className="auth__error">{errors.isAgreed.message}</p>}
-            <span className="registration__policy-name" />
+            <span
+              className={
+                !errors.isAgreed
+                  ? 'registration__policy-name'
+                  : 'registration__policy-name registration__policy-name--error'
+              }
+            />
           </label>
           <input className="registration__button" type="submit" value="Create" />
         </form>
