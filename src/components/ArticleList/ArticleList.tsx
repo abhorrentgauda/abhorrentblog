@@ -1,9 +1,10 @@
-import './ArticleList.scss';
-import { Pagination, Spin } from 'antd';
 import { useState } from 'react';
+import { Pagination, Spin } from 'antd';
 
 import ArticlePreview from '../ArticlePreview/ArticlePreview';
 import { useFetchArticlesQuery } from '../../store/articlesApi';
+
+import './ArticleList.scss';
 
 function ArticleList() {
   const [currentPage, setCurrentPage] = useState(1);

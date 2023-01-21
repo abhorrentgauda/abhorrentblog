@@ -3,6 +3,7 @@ import { Link, Outlet } from 'react-router-dom';
 import { useGetUserQuery } from '../../store/userApi';
 import { logOut } from '../../store/authSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+
 import './Layout.scss';
 
 const Layout = () => {

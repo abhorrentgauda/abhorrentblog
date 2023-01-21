@@ -1,5 +1,3 @@
-import './App.scss';
-
 import { Route, Routes } from 'react-router-dom';
 
 import Layout from '../Layout';
@@ -8,6 +6,8 @@ import Article from '../Article';
 import RegistrationForm from '../RegistrationForm';
 import LoginForm from '../LoginForm';
 import EditProfile from '../EditProfile';
+
+import './App.scss';
 
 function App() {
   return (

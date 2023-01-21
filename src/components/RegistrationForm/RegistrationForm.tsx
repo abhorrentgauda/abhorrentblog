@@ -13,6 +13,7 @@ import './RegistrationForm.scss';
 const RegistrationForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [registerUser] = useRegisterUserMutation();
   const [error, setError] = useState('');
 
   const {
@@ -21,7 +22,7 @@ const RegistrationForm = () => {
     watch,
     formState: { errors },
   } = useForm<IRefigsterAuth>();
-  const [registerUser] = useRegisterUserMutation();
+
   const password = useRef({});
   password.current = watch('password', '');
 

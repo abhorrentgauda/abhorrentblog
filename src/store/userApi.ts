@@ -52,6 +52,7 @@ export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: baseQueryWithReauth,
   tagTypes: ['User'],
+
   endpoints: (builder) => ({
     getUser: builder.query<IUserInfo, void>({
       query: () => ({
@@ -59,6 +60,7 @@ export const userApi = createApi({
       }),
       providesTags: ['User'],
     }),
+
     registerUser: builder.mutation<IUserInfo, IRegisterForm>({
       query: (user) => ({
         url: 'users',
@@ -67,6 +69,7 @@ export const userApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+
     loginUser: builder.mutation<IUserInfo, ILoginForm>({
       query: (user) => ({
         url: 'users/login',
@@ -75,6 +78,7 @@ export const userApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+
     editUser: builder.mutation<IUserInfo, IEditProfile>({
       query: (user) => ({
         url: 'user',

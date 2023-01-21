@@ -1,11 +1,11 @@
-import './Article.scss';
-
+import Markdown from 'markdown-to-jsx';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
-import Markdown from 'markdown-to-jsx';
 import { Spin } from 'antd';
 
 import { useFetchArticleQuery } from '../../store/articlesApi';
+
+import './Article.scss';
 
 const Article = () => {
   const { slug } = useParams<{ slug: string }>();

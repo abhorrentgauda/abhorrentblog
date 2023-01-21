@@ -1,9 +1,10 @@
-import './ArticlePreview.scss';
 import React from 'react';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 
 import { IArticle } from '../../types/interfaces';
+
+import './ArticlePreview.scss';
 
 const ArticlePreview: React.FC<IArticle> = (article) => (
   <>

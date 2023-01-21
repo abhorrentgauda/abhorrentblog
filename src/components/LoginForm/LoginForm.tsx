@@ -11,17 +11,16 @@ import { isFetchBaseQueryError } from '../helpers/errorHelper';
 import './LoginForm.scss';
 
 const LoginForm = () => {
+  const [loginUser] = useLoginUserMutation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginForm>();
-
-  const [error, setError] = useState('');
-
-  const [loginUser] = useLoginUserMutation();
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
     const { email, password } = data;
