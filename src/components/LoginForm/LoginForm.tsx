@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../hooks';
 import { ILoginForm } from '../../types/interfaces';
 import { setToken } from '../../store/authSlice';
 import { useLoginUserMutation } from '../../store/userApi';
-import { isFetchBaseQueryError } from '../helpers/errorHelper';
+import { isFetchBaseQueryError } from '../../helpers/errorHelper';
 
 import './LoginForm.scss';
 

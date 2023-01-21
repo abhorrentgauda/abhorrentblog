@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { useRegisterUserMutation } from '../../store/userApi';
 import { IRefigsterAuth } from '../../types/interfaces';
-import { isFetchBaseQueryError } from '../helpers/errorHelper';
+import { isFetchBaseQueryError } from '../../helpers/errorHelper';
 import { useAppDispatch } from '../../hooks';
 import { setToken } from '../../store/authSlice';
 

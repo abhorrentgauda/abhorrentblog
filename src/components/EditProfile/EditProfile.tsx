@@ -5,7 +5,7 @@ import { IEditProfile } from '../../types/interfaces';
 import { useAppDispatch } from '../../hooks';
 import { useEditUserMutation } from '../../store/userApi';
 import { setToken } from '../../store/authSlice';
-import { isFetchBaseQueryError } from '../helpers/errorHelper';
+import { isFetchBaseQueryError } from '../../helpers/errorHelper';
 
 import './EditProfile.scss';
 
