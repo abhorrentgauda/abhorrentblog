@@ -15,6 +15,10 @@ a {
   text-decoration: none;
 }
 
+li {
+  list-style: none;
+}
+
 .article-list {
   padding: 26px 250px;
   padding-bottom: 16px;
@@ -26,6 +30,16 @@ a {
 .container {
   padding-top: 59px;
   padding-bottom: 67px;
+}
+
+.error--not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+  font-size: 26px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.75);
 }
 
 .ant-spin-spinning {

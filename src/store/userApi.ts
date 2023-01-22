@@ -12,8 +12,8 @@ import { setToken, logOut } from './authSlice';
 
 import { RootState } from '.';
 
-// ищем токен в стейте, если находим - устанавливаем в стейте
-const baseQuery = fetchBaseQuery({
+// ищем токен в стейте, если находим - устанавливаем из стейта
+export const baseQuery = fetchBaseQuery({
   baseUrl: 'https://blog.kata.academy/api/',
   prepareHeaders: (headers, { getState }) => {
     const { token } = (getState() as RootState).auth;
@@ -27,11 +27,11 @@ const baseQuery = fetchBaseQuery({
 });
 
 // если токена нет в стейте, ищем его в локасторедж повторно
-const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
-  args,
-  api,
-  extraOptions,
-) => {
+export const baseQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === 401) {

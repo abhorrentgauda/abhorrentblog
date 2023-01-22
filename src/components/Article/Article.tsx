@@ -4,12 +4,17 @@ import { format } from 'date-fns';
 import { Spin } from 'antd';
 
 import { useFetchArticleQuery } from '../../store/articlesApi';
+import { isFetchBaseQueryError } from '../../helpers/errorHelper';
 
 import './Article.scss';
 
 const Article = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { data, isLoading } = useFetchArticleQuery(slug || '');
+  const { data, isLoading, error } = useFetchArticleQuery(slug || '');
+
+  const notFoundMessage = isFetchBaseQueryError(error) && error.data === 'Not Found' && (
+    <p className="error--not-found">404 NOT FOUND</p>
+  );
 
   const content = data && (
     <div className="article">
@@ -46,6 +51,7 @@ const Article = () => {
     <div className="container">
       {content}
       {isLoading && <Spin size="large" />}
+      {notFoundMessage}
     </div>
   );
 };

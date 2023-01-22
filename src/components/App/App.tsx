@@ -6,6 +6,7 @@ import Article from '../Article';
 import RegistrationForm from '../RegistrationForm';
 import LoginForm from '../LoginForm';
 import EditProfile from '../EditProfile';
+import CreateArticle from '../CreateArticle';
 
 import './App.scss';
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="sign-up" element={<RegistrationForm />} />
         <Route path="sign-in" element={<LoginForm />} />
         <Route path="profile" element={<EditProfile />} />
+        <Route path="new-article" element={<CreateArticle />} />
       </Route>
     </Routes>
   );

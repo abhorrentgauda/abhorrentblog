@@ -17,7 +17,7 @@ const Layout = () => {
         Realworld Blog
       </Link>
       <div className="header-buttons">
-        <Link to="/" className="header-button header-button--create-article">
+        <Link to="new-article" className="header-button header-button--create-article">
           Create article
         </Link>
         <div className="header-user">

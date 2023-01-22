@@ -1,0 +1,126 @@
+.create-article {
+  width: 938px;
+  min-height: 625px;
+  background-color: #ffffff;
+  margin: auto;
+  box-sizing: border-box;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0px 22px 106px rgba(0, 0, 0, 0.07), 0px 9.19107px 44.2843px rgba(0, 0, 0, 0.0503198),
+    0px 4.91399px 23.6765px rgba(0, 0, 0, 0.0417275), 0px 2.75474px 13.2728px rgba(0, 0, 0, 0.035),
+    0px 1.46302px 7.04911px rgba(0, 0, 0, 0.0282725),
+    0px 0.608796px 2.93329px rgba(0, 0, 0, 0.0196802);
+  border-radius: 6px;
+  padding: 48px 32px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  color: #262626;
+
+  &__title {
+    margin: 0 auto;
+    margin-bottom: 21px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  label {
+    font-size: 14px;
+    line-height: 22px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__name,
+  &__description,
+  &__text,
+  &__tag {
+    box-sizing: border-box;
+    padding: 8px 12px;
+    height: 40px;
+    margin-bottom: 2px;
+    color: #262626;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+  }
+
+  &__text {
+    min-height: 168px;
+    max-width: 100%;
+    resize: none;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  &__tags {
+    width: 620px;
+    display: block;
+
+    li {
+      height: 40px;
+      margin-top: 2px;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__tag {
+    width: 300px;
+    margin-right: 16px;
+    box-sizing: border-box;
+  }
+
+  input::placeholder {
+    color: #bfbfbf;
+  }
+
+  textarea::placeholder {
+    color: #bfbfbf;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  &__button {
+    background-color: #1890ff;
+    border-radius: 4px;
+    border: none;
+    height: 40px;
+    font-size: 16px;
+    line-height: 24px;
+    color: #ffffff;
+    cursor: pointer;
+    width: 319px;
+    position: relative;
+    right: 136px;
+  }
+
+  &__delete {
+    height: 40px;
+    width: 118px;
+    border: 1px solid #f5222d;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #f5222d;
+    font-size: 16px;
+    line-height: 24px;
+    box-sizing: border-box;
+    padding: 8px 16px;
+  }
+
+  &__append {
+    position: relative;
+    height: 40px;
+    width: 136px;
+    border: 1px solid #1890ff;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #1890ff;
+    font-size: 16px;
+    line-height: 24px;
+    left: 450px;
+    bottom: 57px;
+    box-sizing: border-box;
+    padding: 8px 16px;
+  }
+}

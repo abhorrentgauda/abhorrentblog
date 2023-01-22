@@ -1,9 +1,7 @@
 export interface IArticle {
   author: {
     username: string;
-    bio: null | string;
     image: string;
-    following: boolean;
   };
   body: string;
   createdAt: string;
@@ -13,7 +11,6 @@ export interface IArticle {
   slug: string;
   tagList: string[];
   title: string;
-  updatedAt?: string;
 }
 
 export interface IArticles {
@@ -63,4 +60,20 @@ export interface IUserInfo {
 
 export interface IAuthToken {
   token: string;
+}
+
+export interface ICreateArticleForm {
+  title: string;
+  description: string;
+  body: string;
+  tags: {
+    tag: string;
+  }[];
+}
+
+export interface ICreateArticle {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
 }

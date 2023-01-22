@@ -1,23 +1,39 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { IArticles, IArticleSlug } from '../types/interfaces';
+import { IArticles, IArticleSlug, ICreateArticle } from '../types/interfaces';
+
+import { baseQueryWithReauth } from './userApi';
 
 export const articlesApi = createApi({
   reducerPath: 'articlesApi',
   tagTypes: ['Articles'],
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
+  baseQuery: baseQueryWithReauth,
 
   endpoints: (builder) => ({
     fetchArticles: builder.query<IArticles, number>({
-      query: (offset) => `articles?limit=5&offset=${offset}`,
+      query: (offset) => ({
+        url: `articles?limit=5&offset=${offset}`,
+      }),
       providesTags: ['Articles'],
     }),
 
     fetchArticle: builder.query<IArticleSlug, string>({
-      query: (slug) => `articles/${slug}`,
+      query: (slug) => ({
+        url: `articles/${slug}`,
+      }),
       providesTags: ['Articles'],
+    }),
+
+    createArticle: builder.mutation<IArticleSlug, ICreateArticle>({
+      query: (article) => ({
+        url: 'articles',
+        method: 'POST',
+        body: { article },
+      }),
+      invalidatesTags: ['Articles'],
     }),
   }),
 });
 
-export const { useFetchArticleQuery, useFetchArticlesQuery } = articlesApi;
+export const { useFetchArticleQuery, useFetchArticlesQuery, useCreateArticleMutation } =
+  articlesApi;
