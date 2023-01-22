@@ -121,7 +121,7 @@ const CreateArticle = () => {
             onClick={() => append({ tag: '' })}
             className="create-article__append"
           >
-            Append
+            Add tag
           </button>
           <input className="create-article__button" type="submit" value="Save" />
         </form>
