@@ -6,9 +6,18 @@ import {
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
 
-import { IUserInfo, IRegisterForm, ILoginForm, IEditProfile } from '../types/interfaces';
+import {
+  IUserInfo,
+  IRegisterForm,
+  ILoginForm,
+  IEditProfile,
+  IArticles,
+  IArticleSlug,
+  ICreateArticle,
+  IEditArticle,
+} from '../types/interfaces';
 
-import { setToken, logOut } from './authSlice';
+import { setUser, logOut } from './authSlice';
 
 import { RootState } from '.';
 
@@ -38,7 +47,7 @@ export const baseQueryWithReauth: BaseQueryFn<
     const refreshResult = localStorage.getItem('token');
 
     if (refreshResult) {
-      api.dispatch(setToken({ token: refreshResult }));
+      api.dispatch(setUser({ token: refreshResult }));
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOut());
@@ -48,10 +57,10 @@ export const baseQueryWithReauth: BaseQueryFn<
   return result;
 };
 
-export const userApi = createApi({
+export const blogApi = createApi({
   reducerPath: 'userApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['User'],
+  tagTypes: ['User', 'Articles'],
 
   endpoints: (builder) => ({
     getUser: builder.query<IUserInfo, void>({
@@ -87,6 +96,62 @@ export const userApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+
+    fetchArticles: builder.query<IArticles, number>({
+      query: (offset) => ({
+        url: `articles?limit=5&offset=${offset}`,
+      }),
+      providesTags: ['Articles'],
+    }),
+
+    fetchArticle: builder.query<IArticleSlug, string>({
+      query: (slug) => ({
+        url: `articles/${slug}`,
+      }),
+      providesTags: ['Articles'],
+    }),
+
+    createArticle: builder.mutation<IArticleSlug, ICreateArticle>({
+      query: (article) => ({
+        url: 'articles',
+        method: 'POST',
+        body: { article },
+      }),
+      invalidatesTags: ['Articles'],
+    }),
+
+    deleteArticle: builder.mutation<void, string>({
+      query: (slug) => ({
+        url: `articles/${slug}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Articles'],
+    }),
+
+    editArticle: builder.mutation<IArticleSlug, IEditArticle>({
+      query: ({ article, slug }) => ({
+        url: `articles/${slug}`,
+        method: 'PUT',
+        body: { article },
+      }),
+      invalidatesTags: ['Articles'],
+    }),
+
+    likeArticle: builder.mutation<IArticleSlug, string>({
+      query: (slug) => ({
+        url: `articles/${slug}/favorite`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['Articles'],
+    }),
+
+    unlikeArticle: builder.mutation<IArticleSlug, string>({
+      query: (slug) => ({
+        url: `articles/${slug}/favorite`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Articles'],
+    }),
   }),
 });
 
@@ -95,4 +160,12 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useEditUserMutation,
-} = userApi;
+  useFetchArticleQuery,
+  useFetchArticlesQuery,
+  useLazyFetchArticlesQuery,
+  useCreateArticleMutation,
+  useDeleteArticleMutation,
+  useEditArticleMutation,
+  useLikeArticleMutation,
+  useUnlikeArticleMutation,
+} = blogApi;

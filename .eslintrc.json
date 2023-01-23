@@ -88,5 +88,13 @@
         "moduleDirectory": ["node_modules", "src/"]
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.tsx"],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ]
 }

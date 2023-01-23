@@ -1,15 +1,20 @@
+import { useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
-import { useGetUserQuery } from '../../store/userApi';
-import { logOut } from '../../store/authSlice';
+import { useGetUserQuery } from '../../store/blogApi';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { logOut, setUser } from '../../store/authSlice';
 
 import './Layout.scss';
 
 const Layout = () => {
   const { data } = useGetUserQuery();
-  const { token } = useAppSelector((state) => state.auth);
+  const { token, username } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (token && !username && data) dispatch(setUser({ token, username: data.user.username }));
+  }, [token, username, data]);
 
   const header = token ? (
     <header className="header">

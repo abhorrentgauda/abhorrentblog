@@ -58,8 +58,9 @@ export interface IUserInfo {
   };
 }
 
-export interface IAuthToken {
+export interface IAuthUser {
   token: string;
+  username?: string;
 }
 
 export interface ICreateArticleForm {
@@ -76,4 +77,9 @@ export interface ICreateArticle {
   description: string;
   body: string;
   tagList: string[];
+}
+
+export interface IEditArticle {
+  article: ICreateArticle;
+  slug: string;
 }

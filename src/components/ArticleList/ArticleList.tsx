@@ -1,16 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pagination, Spin } from 'antd';
 
 import ArticlePreview from '../ArticlePreview/ArticlePreview';
-import { useFetchArticlesQuery } from '../../store/articlesApi';
+import { useFetchArticlesQuery, useLazyFetchArticlesQuery } from '../../store/blogApi';
+import { useAppSelector } from '../../hooks';
 
 import './ArticleList.scss';
 
 function ArticleList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [offset, setOffset] = useState(0);
+  const { token } = useAppSelector((state) => state.auth);
 
   const { data, isLoading, error } = useFetchArticlesQuery(offset);
+  const [fetchArticles] = useLazyFetchArticlesQuery();
+
+  useEffect(() => {
+    fetchArticles(offset);
+  }, [token]);
 
   const onChangePage = (e: number) => {
     setOffset(e * 5 - 5);

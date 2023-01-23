@@ -1,9 +1,15 @@
 import Markdown from 'markdown-to-jsx';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Spin } from 'antd';
+import { Spin, Popconfirm } from 'antd';
 
-import { useFetchArticleQuery } from '../../store/articlesApi';
+import { useAppSelector } from '../../hooks';
+import {
+  useDeleteArticleMutation,
+  useFetchArticleQuery,
+  useLikeArticleMutation,
+  useUnlikeArticleMutation,
+} from '../../store/blogApi';
 import { isFetchBaseQueryError } from '../../helpers/errorHelper';
 
 import './Article.scss';
@@ -11,6 +17,46 @@ import './Article.scss';
 const Article = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data, isLoading, error } = useFetchArticleQuery(slug || '');
+  const [deleteArticle] = useDeleteArticleMutation();
+  const [unlikeArticle] = useUnlikeArticleMutation();
+  const [likeArticle] = useLikeArticleMutation();
+  const { username } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    if (slug) await deleteArticle(slug).unwrap();
+    navigate('/');
+  };
+
+  const handleUnlike = async (slug: string) => {
+    await unlikeArticle(slug).unwrap();
+  };
+
+  const handleLike = async (slug: string) => {
+    await likeArticle(slug).unwrap();
+  };
+
+  const editButtons =
+    data?.article.author.username === username ? (
+      <div className="article__buttons">
+        <Popconfirm
+          title="Warning"
+          description="Are you sure you want to delete article?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={handleDelete}
+          placement="right"
+        >
+          <Link to="edit" type="button" className="article__button article__button--delete">
+            Delete
+          </Link>
+        </Popconfirm>
+
+        <Link to="edit" type="button" className="article__button article__button--edit">
+          Edit
+        </Link>
+      </div>
+    ) : null;
 
   const notFoundMessage = isFetchBaseQueryError(error) && error.data === 'Not Found' && (
     <p className="error--not-found">404 NOT FOUND</p>
@@ -23,7 +69,18 @@ const Article = () => {
           <div className="article__header">
             <p className="article__title">{data.article.title}</p>
             <label className="article__label">
-              <button className="article__like" type="button" aria-label="like" />
+              <button
+                className={
+                  !data.article.favorited ? 'article__like' : 'article__like article__like--liked'
+                }
+                type="button"
+                aria-label="like"
+                onClick={
+                  data.article.favorited
+                    ? () => handleUnlike(slug || '')
+                    : () => handleLike(slug || '')
+                }
+              />
               <span>{data.article.favoritesCount}</span>
             </label>
           </div>
@@ -35,11 +92,16 @@ const Article = () => {
           <p className="article__paragraph">{data.article.description}</p>
         </div>
         <div className="article__author">
-          <div className="article__credits">
-            <span className="article__name">{data.article.author.username}</span>
-            <span className="article__date">{format(new Date(data.article.createdAt), 'PP')}</span>
+          <div className="article__author-info">
+            <div className="article__credits">
+              <span className="article__name">{data.article.author.username}</span>
+              <span className="article__date">
+                {format(new Date(data.article.createdAt), 'PP')}
+              </span>
+            </div>
+            <img src={data.article.author.image} alt="" />
           </div>
-          <img src={data.article.author.image} alt="" />
+          {editButtons}
         </div>
       </div>
       <div className="article__body">

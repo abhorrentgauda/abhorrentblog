@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { useAppDispatch } from '../../hooks';
 import { ILoginForm } from '../../types/interfaces';
-import { setToken } from '../../store/authSlice';
-import { useLoginUserMutation } from '../../store/userApi';
+import { setUser } from '../../store/authSlice';
+import { useLoginUserMutation } from '../../store/blogApi';
 import { isFetchBaseQueryError } from '../../helpers/errorHelper';
 
 import './LoginForm.scss';
@@ -14,7 +14,10 @@ const LoginForm = () => {
   const [loginUser] = useLoginUserMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [error, setError] = useState('');
+
+  const fromPage = location.state?.from?.pathname || '/';
 
   const {
     register,
@@ -27,11 +30,10 @@ const LoginForm = () => {
     try {
       // Получаем респонс запроса, диспатчим полученный токен и заносим в локалсторедж
       const result = await loginUser({ email, password }).unwrap();
-      dispatch(setToken({ token: result.user.token }));
-      localStorage.setItem('token', result.user.token);
+      dispatch(setUser({ token: result.user.token, username: result.user.username }));
 
       // уходим на главную страницу после удачного сабмита
-      navigate('/');
+      navigate(fromPage, { replace: true });
     } catch (err) {
       if (isFetchBaseQueryError(err)) {
         // Проверяем тип ошибки и ее статус, в случае 422 устанавливаем сообщение ошибки

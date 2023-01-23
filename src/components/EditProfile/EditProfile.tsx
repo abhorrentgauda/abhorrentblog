@@ -3,8 +3,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { IEditProfile } from '../../types/interfaces';
 import { useAppDispatch } from '../../hooks';
-import { useEditUserMutation } from '../../store/userApi';
-import { setToken } from '../../store/authSlice';
+import { useEditUserMutation } from '../../store/blogApi';
+import { setUser } from '../../store/authSlice';
 import { isFetchBaseQueryError } from '../../helpers/errorHelper';
 
 import './EditProfile.scss';
@@ -27,8 +27,7 @@ const EditProfile = () => {
     try {
       // Получаем респонс запроса, диспатчим полученный токен и заносим в локалсторедж
       const result = await editUser({ username, email, password, image }).unwrap();
-      dispatch(setToken({ token: result.user.token }));
-      localStorage.setItem('token', result.user.token);
+      dispatch(setUser({ token: result.user.token, username: result.user.username }));
 
       // очистка полей и установка сообщения об удачном сабмите
       reset();

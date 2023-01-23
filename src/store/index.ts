@@ -1,17 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { articlesApi } from './articlesApi';
-import { userApi } from './userApi';
+import { blogApi } from './blogApi';
 import authReducer from './authSlice';
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    [articlesApi.reducerPath]: articlesApi.reducer,
-    [userApi.reducerPath]: userApi.reducer,
+    [blogApi.reducerPath]: blogApi.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(articlesApi.middleware).concat(userApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(blogApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

@@ -2,11 +2,11 @@ import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { useRegisterUserMutation } from '../../store/userApi';
+import { useRegisterUserMutation } from '../../store/blogApi';
 import { IRefigsterAuth } from '../../types/interfaces';
 import { isFetchBaseQueryError } from '../../helpers/errorHelper';
 import { useAppDispatch } from '../../hooks';
-import { setToken } from '../../store/authSlice';
+import { setUser } from '../../store/authSlice';
 
 import './RegistrationForm.scss';
 
@@ -31,8 +31,7 @@ const RegistrationForm = () => {
     try {
       // Получаем респонс запроса, диспатчим полученный токен и заносим в локалсторедж
       const result = await registerUser({ username, email, password }).unwrap();
-      dispatch(setToken({ token: result.user.token }));
-      localStorage.setItem('token', result.user.token);
+      dispatch(setUser({ token: result.user.token, username: result.user.username }));
 
       // уходим на главную страницу после удачного сабмита
       navigate('/');

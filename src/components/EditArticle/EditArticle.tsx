@@ -1,14 +1,17 @@
 import React from 'react';
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { ICreateArticleForm } from '../../types/interfaces';
-import { useCreateArticleMutation } from '../../store/blogApi';
+import { useFetchArticleQuery, useEditArticleMutation } from '../../store/blogApi';
+import { tagsHelper } from '../../helpers/tagsHelper';
 
-import './CreateArticle.scss';
+import './EditArticle.scss';
 
-const CreateArticle = () => {
-  const [createArticle] = useCreateArticleMutation();
+const EditArticle = () => {
+  const { slug } = useParams<{ slug: string }>();
+  const [editArticle] = useEditArticleMutation();
+  const { data } = useFetchArticleQuery(slug || '');
   const navigate = useNavigate();
 
   const {
@@ -18,7 +21,10 @@ const CreateArticle = () => {
     formState: { errors },
   } = useForm<ICreateArticleForm>({
     defaultValues: {
-      tags: [{ tag: '' }],
+      title: data?.article.title,
+      description: data?.article.description,
+      body: data?.article.body,
+      tags: [...tagsHelper(data?.article.tagList)],
     },
   });
 
@@ -34,7 +40,8 @@ const CreateArticle = () => {
     for (const tag of tags) {
       if (tag.tag) tagList.push(tag.tag);
     }
-    await createArticle({ title, description, body, tagList }).unwrap();
+
+    if (slug) await editArticle({ slug, article: { title, description, body, tagList } }).unwrap();
     navigate('/');
   };
 
@@ -130,4 +137,4 @@ const CreateArticle = () => {
   );
 };
 
-export default CreateArticle;
+export default EditArticle;
