@@ -1,5 +1,3 @@
-# ABHORRENT BLOGUE
+# ABHORRENT BLOG
 
-[x] started
-
-[] finished
+> [Vercel production build](https://abhorrentblog.vercel.app)
