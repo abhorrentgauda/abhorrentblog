@@ -9,9 +9,7 @@ type Props = {
 const AlreadyAuth: React.FC<Props> = ({ children }) => {
   const { token } = useAppSelector((state) => state.auth);
 
-  if (token) return <Navigate to="/" />;
-
-  return children;
+  return token ? <Navigate to="/" /> : children;
 };
 
 export default AlreadyAuth;

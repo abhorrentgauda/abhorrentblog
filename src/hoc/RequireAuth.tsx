@@ -10,9 +10,7 @@ const RequireAuth: React.FC<Props> = ({ children }) => {
   const location = useLocation();
   const { token } = useAppSelector((state) => state.auth);
 
-  if (!token) return <Navigate to="/sign-in" state={{ from: location }} />;
-
-  return children;
+  return token ? children : <Navigate to="/sign-in" state={{ from: location }} />;
 };
 
 export default RequireAuth;
