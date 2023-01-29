@@ -4,6 +4,7 @@ import { Link, Outlet } from 'react-router-dom';
 import { useGetUserQuery } from '../../store/blogApi';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logOut, setUser } from '../../store/authSlice';
+import { defaultPath, newArticlePath, profilePath, signInPath, signUpPath } from '../../paths';
 
 import './Layout.scss';
 
@@ -16,27 +17,28 @@ const Layout = () => {
     if (token && !username && data) dispatch(setUser({ token, username: data.user.username }));
   }, [token, username, data]);
 
+  const imageOnErrorHandler = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    event.currentTarget.src = 'https://static.productionready.io/images/smiley-cyrus.jpg';
+  };
+
   const header = token ? (
     <header className="header">
-      <Link to="/" className="header-name">
+      <Link to={defaultPath} className="header-name">
         Realworld Blog
       </Link>
       <div className="header-buttons">
-        <Link to="new-article" className="header-button header-button--create-article">
+        <Link to={newArticlePath} className="header-button header-button--create-article">
           Create article
         </Link>
         <div className="header-user">
-          <Link to="profile">
+          <Link to={profilePath}>
             {data?.user.username}
-            <img
-              src={data?.user.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'}
-              alt=""
-            />
+            <img src={data?.user.image} onError={imageOnErrorHandler} alt="" />
           </Link>
         </div>
         <Link
           type="button"
-          to="/"
+          to={defaultPath}
           className="header-button header-button--log-out"
           onClick={() => dispatch(logOut())}
         >
@@ -46,14 +48,14 @@ const Layout = () => {
     </header>
   ) : (
     <header className="header">
-      <Link to="/" className="header-name">
+      <Link to={defaultPath} className="header-name">
         Realworld Blog
       </Link>
       <div>
-        <Link to="sign-in" className="header-button header-button--sign-in">
+        <Link to={signInPath} className="header-button header-button--sign-in">
           Sign In
         </Link>
-        <Link to="sign-up" className="header-button header-button--sign-up">
+        <Link to={signUpPath} className="header-button header-button--sign-up">
           Sign Up
         </Link>
       </div>

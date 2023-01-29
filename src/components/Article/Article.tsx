@@ -11,6 +11,7 @@ import {
   useUnlikeArticleMutation,
 } from '../../store/blogApi';
 import { isFetchBaseQueryError } from '../../helpers/errorHelper';
+import { defaultPath, editPath } from '../../paths';
 
 import './Article.scss';
 
@@ -28,12 +29,16 @@ const Article = () => {
     navigate('/');
   };
 
+  const imageOnErrorHandler = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    event.currentTarget.src = 'https://static.productionready.io/images/smiley-cyrus.jpg';
+  };
+
   const handleUnlike = async (slug: string) => {
-    await unlikeArticle(slug).unwrap();
+    if (username) await unlikeArticle(slug).unwrap();
   };
 
   const handleLike = async (slug: string) => {
-    await likeArticle(slug).unwrap();
+    if (username) await likeArticle(slug).unwrap();
   };
 
   const editButtons =
@@ -47,12 +52,12 @@ const Article = () => {
           onConfirm={handleDelete}
           placement="right"
         >
-          <Link to="edit" type="button" className="article__button article__button--delete">
+          <Link to={defaultPath} type="button" className="article__button article__button--delete">
             Delete
           </Link>
         </Popconfirm>
 
-        <Link to="edit" type="button" className="article__button article__button--edit">
+        <Link to={editPath} type="button" className="article__button article__button--edit">
           Edit
         </Link>
       </div>
@@ -71,7 +76,11 @@ const Article = () => {
             <label className="article__label">
               <button
                 className={
-                  !data.article.favorited ? 'article__like' : 'article__like article__like--liked'
+                  username && !data.article.favorited
+                    ? 'article__like article__like--auth'
+                    : username && data.article.favorited
+                    ? 'article__like article__like--liked'
+                    : 'article__like'
                 }
                 type="button"
                 aria-label="like"
@@ -99,7 +108,7 @@ const Article = () => {
                 {format(new Date(data.article.createdAt), 'PP')}
               </span>
             </div>
-            <img src={data.article.author.image} alt="" />
+            <img src={data.article.author.image} onError={imageOnErrorHandler} alt="" />
           </div>
           {editButtons}
         </div>

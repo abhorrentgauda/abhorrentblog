@@ -7,6 +7,7 @@ import { ILoginForm } from '../../types/interfaces';
 import { setUser } from '../../store/authSlice';
 import { useLoginUserMutation } from '../../store/blogApi';
 import { isFetchBaseQueryError } from '../../helpers/errorHelper';
+import { signUpPath } from '../../paths';
 
 import './LoginForm.scss';
 
@@ -82,7 +83,7 @@ const LoginForm = () => {
           <input className="login__button" type="submit" value="Login" />
         </form>
         <span className="login__signup">
-          Don&#39;t have an account? <Link to="/sign-up">Sign Up</Link>.
+          Don&#39;t have an account? <Link to={`/${signUpPath}`}>Sign Up</Link>.
         </span>
       </div>
     </div>

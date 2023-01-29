@@ -3,13 +3,14 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { IEditProfile } from '../../types/interfaces';
 import { useAppDispatch } from '../../hooks';
-import { useEditUserMutation } from '../../store/blogApi';
+import { useEditUserMutation, useGetUserQuery } from '../../store/blogApi';
 import { setUser } from '../../store/authSlice';
 import { isFetchBaseQueryError } from '../../helpers/errorHelper';
 
 import './EditProfile.scss';
 
 const EditProfile = () => {
+  const { data } = useGetUserQuery();
   const dispatch = useAppDispatch();
   const [editUser] = useEditUserMutation();
   const [error, setError] = useState('');
@@ -20,7 +21,12 @@ const EditProfile = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<IEditProfile>();
+  } = useForm<IEditProfile>({
+    defaultValues: {
+      username: data?.user.username,
+      email: data?.user.email,
+    },
+  });
 
   const onSubmit: SubmitHandler<IEditProfile> = async (data) => {
     const { username, email, password, image } = data;
@@ -101,7 +107,6 @@ const EditProfile = () => {
               type="password"
               className="edit-profile__password"
               {...register('password', {
-                required: 'You must specify a password',
                 minLength: { value: 4, message: 'Password should be at least 4 characters' },
                 maxLength: {
                   value: 40,

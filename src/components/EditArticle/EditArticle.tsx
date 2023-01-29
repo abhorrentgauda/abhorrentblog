@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ICreateArticleForm } from '../../types/interfaces';
 import { useFetchArticleQuery, useEditArticleMutation } from '../../store/blogApi';
 import { tagsHelper } from '../../helpers/tagsHelper';
+import { defaultPath } from '../../paths';
 
 import './EditArticle.scss';
 
@@ -42,7 +43,7 @@ const EditArticle = () => {
     }
 
     if (slug) await editArticle({ slug, article: { title, description, body, tagList } }).unwrap();
-    navigate('/');
+    navigate(defaultPath);
   };
 
   const onKeyHandleSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

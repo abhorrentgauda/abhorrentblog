@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ICreateArticleForm } from '../../types/interfaces';
 import { useCreateArticleMutation } from '../../store/blogApi';
+import { defaultPath } from '../../paths';
 
 import './CreateArticle.scss';
 
@@ -35,7 +36,7 @@ const CreateArticle = () => {
       if (tag.tag) tagList.push(tag.tag);
     }
     await createArticle({ title, description, body, tagList }).unwrap();
-    navigate('/');
+    navigate(defaultPath);
   };
 
   const onKeyHandleSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

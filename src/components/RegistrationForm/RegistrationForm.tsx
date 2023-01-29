@@ -7,6 +7,7 @@ import { IRefigsterAuth } from '../../types/interfaces';
 import { isFetchBaseQueryError } from '../../helpers/errorHelper';
 import { useAppDispatch } from '../../hooks';
 import { setUser } from '../../store/authSlice';
+import { signInPath } from '../../paths';
 
 import './RegistrationForm.scss';
 
@@ -173,7 +174,7 @@ const RegistrationForm = () => {
           <input className="registration__button" type="submit" value="Create" />
         </form>
         <span className="registration__signin">
-          Already have an account? <Link to="/sign-in">Sign In</Link>.
+          Already have an account? <Link to={`/${signInPath}`}>Sign In</Link>.
         </span>
       </div>
     </div>

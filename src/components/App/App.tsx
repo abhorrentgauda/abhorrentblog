@@ -10,18 +10,26 @@ import CreateArticle from '../CreateArticle';
 import EditArticle from '../EditArticle';
 import RequireAuth from '../../hoc/RequireAuth';
 import AlreadyAuth from '../../hoc/AlreadyAuth';
+import {
+  articlesPath,
+  signUpPath,
+  defaultPath,
+  signInPath,
+  newArticlePath,
+  profilePath,
+} from '../../paths';
 
 import './App.scss';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route path="/" element={<ArticleList />} />
-        <Route path="articles" element={<ArticleList />} />
-        <Route path="articles/:slug" element={<Article />} />
+      <Route path={defaultPath} element={<Layout />}>
+        <Route path={defaultPath} element={<ArticleList />} />
+        <Route path={articlesPath} element={<ArticleList />} />
+        <Route path={`${articlesPath}/:slug`} element={<Article />} />
         <Route
-          path="sign-up"
+          path={signUpPath}
           element={
             <AlreadyAuth>
               <RegistrationForm />
@@ -29,16 +37,23 @@ function App() {
           }
         />
         <Route
-          path="sign-in"
+          path={signInPath}
           element={
             <AlreadyAuth>
               <LoginForm />
             </AlreadyAuth>
           }
         />
-        <Route path="profile" element={<EditProfile />} />
         <Route
-          path="new-article"
+          path={profilePath}
+          element={
+            <RequireAuth>
+              <EditProfile />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path={newArticlePath}
           element={
             <RequireAuth>
               <CreateArticle />
@@ -46,7 +61,7 @@ function App() {
           }
         />
         <Route
-          path="articles/:slug/edit"
+          path={`${articlesPath}/:slug/edit`}
           element={
             <RequireAuth>
               <EditArticle />
